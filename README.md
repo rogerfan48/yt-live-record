@@ -1,6 +1,6 @@
 # YouTube Live Stream Recorder
 
-A simple shell script to record YouTube live streams to your Desktop using [yt-dlp](https://github.com/yt-dlp/yt-dlp).
+A simple shell script to record YouTube live streams using [streamlink](https://streamlink.github.io).
 
 ## Features
 
@@ -11,8 +11,7 @@ A simple shell script to record YouTube live streams to your Desktop using [yt-d
 
 ## Requirements
 
-- **yt-dlp** — the core download engine
-- **ffmpeg** — required by yt-dlp to merge video and audio streams
+- **streamlink** — the core streaming engine
 
 ---
 
@@ -30,26 +29,12 @@ chmod +x yt-live-record.sh
 
 **macOS:**
 ```bash
-brew install ffmpeg
-pip install -U yt-dlp
+brew install streamlink
 ```
 
-**Debian / Ubuntu:**
+**Linux (all distros):**
 ```bash
-sudo apt update && sudo apt install ffmpeg
-pip install -U yt-dlp
-```
-
-**Arch Linux:**
-```bash
-sudo pacman -S ffmpeg
-pip install -U yt-dlp
-```
-
-**Fedora:**
-```bash
-sudo dnf install ffmpeg
-pip install -U yt-dlp
+pip install streamlink
 ```
 
 ### 3. (Optional) Install globally
@@ -111,18 +96,14 @@ To stop recording early and keep what has been captured, press `Ctrl + C`.
 git pull
 ```
 
-### yt-dlp
-
-YouTube frequently changes its internals. Keep yt-dlp up to date to avoid issues:
+### streamlink
 
 ```bash
-pip install -U yt-dlp
-```
+# macOS
+brew upgrade streamlink
 
-### ffmpeg (macOS)
-
-```bash
-brew upgrade ffmpeg
+# Linux
+pip install -U streamlink
 ```
 
 ---
