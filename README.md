@@ -1,6 +1,6 @@
 # YouTube Live Stream Recorder
 
-A simple shell script to record YouTube live streams using [streamlink](https://streamlink.github.io).
+A simple shell script to record YouTube live streams using [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
 ## Features
 
@@ -8,10 +8,12 @@ A simple shell script to record YouTube live streams using [streamlink](https://
 - Configurable maximum resolution (defaults to 720p)
 - Saves the file to `~/Desktop` (macOS) or `~/Videos` (Linux) with a timestamp in the filename
 - Gracefully stop recording early with `Ctrl + C` — the partial file is saved
+- Automatically strips backslashes from URLs (common when pasting from chat apps)
 
 ## Requirements
 
-- **streamlink** — the core streaming engine
+- **yt-dlp** — the core download/recording engine
+- **ffmpeg** — required by yt-dlp for merging video and audio streams
 
 ---
 
@@ -29,12 +31,15 @@ chmod +x yt-live-record.sh
 
 **macOS:**
 ```bash
-brew install streamlink
+brew install yt-dlp ffmpeg
 ```
 
 **Linux (all distros):**
 ```bash
-pip install streamlink
+pip install yt-dlp
+sudo apt install ffmpeg   # Debian/Ubuntu
+# or: sudo pacman -S ffmpeg   # Arch
+# or: sudo dnf install ffmpeg  # Fedora
 ```
 
 ### 3. (Optional) Install globally
@@ -44,6 +49,27 @@ Create a symlink so you can run the script from anywhere. Because it's a symlink
 ```bash
 sudo ln -s "$(pwd)/yt-live-record.sh" /usr/local/bin/yt-live-record
 ```
+
+---
+
+## Migrating from streamlink
+
+If you previously used the streamlink-based version, uninstall streamlink (optional) and install the new dependencies:
+
+**macOS:**
+```bash
+brew uninstall streamlink
+brew install yt-dlp ffmpeg
+```
+
+**Linux:**
+```bash
+pip uninstall streamlink
+pip install yt-dlp
+sudo apt install ffmpeg   # Debian/Ubuntu
+```
+
+The symlink (`/usr/local/bin/yt-live-record`) does not need to be recreated — it still points to the same script file.
 
 ---
 
@@ -96,14 +122,14 @@ To stop recording early and keep what has been captured, press `Ctrl + C`.
 git pull
 ```
 
-### streamlink
+### yt-dlp
 
 ```bash
 # macOS
-brew upgrade streamlink
+brew upgrade yt-dlp
 
 # Linux
-pip install -U streamlink
+pip install -U yt-dlp
 ```
 
 ---

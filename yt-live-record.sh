@@ -7,7 +7,8 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-URL="$1"
+# Remove backslashes from URL (often added by terminal/chat apps when copying)
+URL="${1//\\/}"
 # Default to 720p if no resolution is specified
 HEIGHT="${2:-720}"
 
@@ -18,16 +19,22 @@ else
     OUTPUT_DIR="$HOME/Videos"
     mkdir -p "$OUTPUT_DIR"
 fi
-OUTPUT_PATH="${OUTPUT_DIR}/Class_${TIMESTAMP}.mp4"
+OUTPUT_PATH="${OUTPUT_DIR}/Class-${TIMESTAMP}.mp4"
 
 echo "========================================"
-echo "Preparing to record live stream with streamlink..."
+echo "Preparing to record live stream with yt-dlp..."
 echo "Source URL: $URL"
 echo "Target Max Resolution: ${HEIGHT}p"
 echo "Output path: $OUTPUT_PATH"
 echo "To stop recording early and save the file, press [Ctrl + C]"
 echo "========================================"
 
-streamlink -o "$OUTPUT_PATH" "$URL" "${HEIGHT}p,best"
+yt-dlp \
+    -f "bestvideo[height<=${HEIGHT}]+bestaudio/best[height<=${HEIGHT}]/best" \
+    --merge-output-format mp4 \
+    --no-part \
+    --downloader-args "ffmpeg:-loglevel warning -stats" \
+    -o "$OUTPUT_PATH" \
+    "$URL"
 
 echo "Recording finished! File saved to: $OUTPUT_PATH"
